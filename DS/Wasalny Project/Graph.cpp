@@ -1,9 +1,9 @@
 #include "Graph.h"
 
 void Graph::addCity(const string& city, double x, double y) {
-    if (graph.find(city) == graph.end()) {
-        graph[city] = {};
-        coordinates[city] = { x, y };
+    if (this->graph.find(city) == this->graph.end()) {
+        this->graph[city] = {};
+        this->coordinates[city] = { x, y };
         cout << "City '" << city << "' added at coordinates (" << x << ", " << y << ").\n";
     }
     else {
@@ -30,7 +30,7 @@ void Graph::addEdge(const string& city1, const string& city2, int distance, bool
 
 void Graph::displayGraph() const {
     cout << "Graph data:\n";
-    for (const auto& pair : graph) {
+    for (const auto& pair : this->graph) {
         const string& city = pair.first;
         const vector<Edge>& neighbors = pair.second;
 
@@ -104,10 +104,29 @@ const unordered_map<string, CityData>& Graph::getCoordinates() const {
     return coordinates;
 }
 // for std::minmax
+//void Graph::saveToStream(std::ostream& out) const {
+//    out << "CITIES\n";
+//    for (const auto& [city, coord] : getCoordinates()) {
+//        out << city << " " << coord.x << " " << coord.y << "\n";
+//    }
+//
+//    out << "EDGES\n";
+//    std::set<std::pair<std::string, std::string>> written;
+//    for (const auto& [city, edges] : getGraph()) {
+//        for (const auto& edge : edges) {
+//            auto pairKey = std::minmax(city, edge.destination);
+//            if (written.insert(pairKey).second) {
+//                out << city << " " << edge.destination << " " << edge.distance << " " << edge.isCrowded << "\n";
+//            }
+//        }
+//    }
+//
+//    out << "END\n";
+//}
 
 void Graph::saveToStream(ostream& out) const {
     out << "CITIES\n";
-    for (const auto& pair : coordinates) {
+    for (const auto& pair : getCoordinates()) {
         const string& city = pair.first;
         const CityData& coord = pair.second;
         out << city << " " << coord.x << " " << coord.y << "\n";
@@ -117,7 +136,7 @@ void Graph::saveToStream(ostream& out) const {
 
     set<pair<string, string>> writtenEdges;
 
-    for (const auto& pair : graph) {
+    for (const auto& pair : getGraph()) {
         const string& city = pair.first;
         const vector<Edge>& edges = pair.second;
 
@@ -138,7 +157,7 @@ void Graph::saveToStream(ostream& out) const {
 void Graph::loadFromStream(istream& in) {
     graph.clear();
     coordinates.clear();
-
+    
     string line;
     string section;
 

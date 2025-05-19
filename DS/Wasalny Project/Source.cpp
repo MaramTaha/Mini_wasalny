@@ -20,6 +20,7 @@ int main() {
     while (e != 3)
 
     {
+
         cout << "Welcome!!\n1.Login\n2.Sign Up\n3.End\n";
         cin >> e;
         if (e == 1) {
@@ -38,6 +39,7 @@ int main() {
                 else {
                     cout << "Success.\n";
                     userIndex = a.getUserIndex(u1);
+                    cout << userIndex<<endl;
                     correct = true;
                     break;
                 }
@@ -59,11 +61,19 @@ int main() {
             cin >> u1.email;
             cout << "Enter password: ";
             u1.password = a.hidePassword();
-            User u(n, e, p);
-            a.add(u1);
-            cout << "Success.\n";
-            isTrue = true;
-            break;
+            
+            userIndex = a.getUserIndex(u1);
+            if (userIndex != -1) {
+                cout << "user already exist !!!" << endl;
+            }
+            else {
+                cout << "Success.\n";
+                a.add(u1);
+                userIndex = a.getUserIndex(u1);
+                isTrue = true;
+                break;
+            }
+           
         }
     }
     int c = 0;
@@ -83,13 +93,13 @@ int main() {
             cin >> x;
             cout << "Enter Y coordinate of '" << cs << "': ";
             cin >> y;
-            a.get(userIndex).graph.addCity(cs, x, y);
+            g.addCity(cs, x, y);
             break;
         }
         case 2: {
             int d;
             string c1, c2;
-            cout << "Enter frist city: ";
+            cout << "Enter first city: ";
             cin >> c1;
             cout << "Enter scound city: ";
             cin >> c2;
@@ -121,7 +131,7 @@ int main() {
         }
         case 5: {
             string c1, c2;
-            cout << "Enter frist city: ";
+            cout << "Enter first city: ";
             cin >> c1;
             cout << "Enter scound city: ";
             cin >> c2;
@@ -138,7 +148,7 @@ int main() {
         case 7: {
             if (a.get(userIndex).graph.getGraph().empty())
                 cout << "Graph is empty!" << endl;
-            else
+            else 
             {
                 int s;
                 cout << "\n1.dijkestra\n2.A*" << endl;
@@ -176,9 +186,10 @@ int main() {
 
         }
 
-        case 8:
+        case 8: {
+            isTrue = false;
             break;
-
+        }
 
 
 

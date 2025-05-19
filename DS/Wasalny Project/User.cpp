@@ -190,7 +190,7 @@ void ArrayList::loadUserGraphsFromFile(const std::string& filename) {
 
 int ArrayList::getUserIndex(User u) {
     for (int i = 0;i < this->getSize();i++) {
-        if (this->get(i).name == u.name) {
+        if (this->get(i).email == u.email) {
             return i;
         }
         else continue;
